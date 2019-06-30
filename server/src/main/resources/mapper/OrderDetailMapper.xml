@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bob.order.dataobject.mapper.OrderDetailMapper" >
+    <resultMap id="BaseResultMap" type="com.bob.order.dataobject.OrderDetail">
+        <id column="order_id" property="orderId" jdbcType="VARCHAR"/>
+        <id column="detail_id" property="detailId" jdbcType="VARCHAR"/>
+        <id column="product_id" property="productId" jdbcType="VARCHAR"/>
+        <id column="product_name" property="productName" jdbcType="VARCHAR"/>
+        <id column="product_icon" property="productIcon" jdbcType="VARCHAR"/>
+        <id column="product_price" property="productPrice" jdbcType="DECIMAL"/>
+        <id column="product_quantity" property="productQuantity" jdbcType="INTEGER"/>
+        <id column="create_time" property="createTime" jdbcType="DATE"/>
+        <id column="update_time" property="updateTime" jdbcType="DATE"/>
+    </resultMap>
+
+    <insert id="saveByObject" parameterType="com.bob.order.dataobject.OrderDetail">
+      insert into order_detail(detail_id,order_id,product_id,product_name,
+        product_icon,product_price,product_quantity)
+        values (
+          #{detailId,jdbcType=VARCHAR},
+          #{orderId,jdbcType=VARCHAR},
+          #{productId,jdbcType=VARCHAR},
+          #{productName,jdbcType=VARCHAR},
+          #{productIcon,jdbcType=VARCHAR},
+          #{productPrice,jdbcType=DECIMAL},
+          #{productQuantity,jdbcType=INTEGER}
+        )
+    </insert>
+
+    <update id="updateByObject" parameterType="com.bob.order.dataobject.OrderDetail">
+        update order_detail
+        <set>
+            <if test="orderId != null and orderId != ''">
+                order_id = #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="productId != null and productId !=''">
+                product_id = #{productId,jdbcType=VARCHAR},
+            </if>
+            <if test="productName !=null and productName != ''">
+                product_name = #{productName,jdbcType=VARCHAR},
+            </if>
+            <if test="productIcon !=null and productIcon != ''">
+                product_icon = #{productIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="productPrice !=null and productPrice != ''">
+                product_price = #{productPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="productQuantity !=null and productQuantity != ''">
+                product_quantity = #{productQuantity,jdbcType=VARCHAR},
+            </if>
+
+        </set>
+        where detail_id = #{detailId,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="deteleById">
+        delete from order_detail where detail_id = #{detailId,jdbcType=VARCHAR}
+    </delete>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select * from order_detail
+    </select>
+
+    <select id="findByOrderId" resultMap="BaseResultMap">
+        select * from order_detail where order_id = #{orderId,jdbcType=VARCHAR}
+    </select>
+</mapper>

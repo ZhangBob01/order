@@ -1,0 +1,32 @@
+spring:
+  application:
+    #使用config统一配置中心的时候，配置文件名一定要和此应用名一致
+    name: app-bob-order
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: APP-BOB-CONFIG
+      profile: dev
+    stream:
+      bindings:
+        myInput:
+          #指定输入通道对应的主题名
+          destination: minestream
+          #指定该应用实例属于 stream 消费组
+          group: order
+        myOutput:
+          destination: minestream
+
+###微服务统一配置加载顺序：先加载eureka，如果没有默认加载端口8761，其次，根据eureka中的服务地址加载config，如果没有，加载默认端口8888
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+###手动刷新统一配置中心，在pom文件引入spring-boot-starter-actuator，在使用的类中添加注解@RefreshScope，发送post请求http://服务地址:端口号/actuator/refresh
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

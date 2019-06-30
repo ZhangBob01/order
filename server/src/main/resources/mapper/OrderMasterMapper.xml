@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bob.order.dataobject.mapper.OrderMasterMapper">
+    <resultMap id="BaseResultMap" type="com.bob.order.dataobject.OrderMaster">
+        <id column="order_id" property="orderId" jdbcType="VARCHAR"/>
+        <id column="buyer_name" property="buyerName" jdbcType="VARCHAR"/>
+        <id column="buyer_phone" property="buyerPhone" jdbcType="VARCHAR"/>
+        <id column="buyer_openid" property="buyerOpenid" jdbcType="VARCHAR"/>
+        <id column="buyer_openid" property="buyerOpenid" jdbcType="VARCHAR"/>
+        <id column="order_amount" property="orderAmount" jdbcType="DECIMAL"/>
+        <id column="order_status" property="orderStatus" jdbcType="INTEGER"/>
+        <id column="pay_status" property="payStatus" jdbcType="INTEGER"/>
+        <id column="create_time" property="createTime" jdbcType="DATE"/>
+        <id column="update_time" property="updateTime" jdbcType="DATE"/>
+    </resultMap>
+    <insert id="saveByObject" parameterType="com.bob.order.dataobject.OrderMaster">
+        insert into order_master(order_id,buyer_name,buyer_phone,
+        buyer_openid,buyer_address,order_amount,order_status,pay_status)
+        values (
+          #{orderId,jdbcType=VARCHAR},
+          #{buyerName,jdbcType=VARCHAR},
+          #{buyerPhone,jdbcType=VARCHAR},
+          #{buyerOpenid,jdbcType=VARCHAR},
+          #{buyerAddress,jdbcType=VARCHAR},
+          #{orderAmount,jdbcType=DECIMAL},
+          #{orderStatus,jdbcType=INTEGER},
+          #{payStatus,jdbcType=INTEGER}
+        )
+    </insert>
+    <update id="updateByObject" parameterType="com.bob.order.dataobject.OrderMaster">
+        update order_master
+        <set>
+          <if test="buyerName!=null and buyerName!=''">
+            buyer_name = #{buyerName,jdbcType=VARCHAR},
+          </if>
+          <if test="buyerPhone!=null and buyerPhone!=''">
+              buyer_phone = #{buyerPhone,jdbcType=VARCHAR},
+          </if>
+          <if test="buyerOpenid!=null and buyerOpenid!=''">
+              buyer_openid = #{buyerOpenid,jdbcType=VARCHAR},
+          </if>
+          <if test="buyerAddress!=null and buyerAddress!=''">
+              buyer_address = #{buyerAddress,jdbcType=VARCHAR},
+          </if>
+          <if test="orderAmount !=null and orderAmount !=''">
+              order_amount = #{orderAmount,jdbcType=DECIMAL},
+          </if>
+          <if test="orderStatus !=null and orderStatus !=''">
+              order_status = #{orderStatus,jdbcType=INTEGER},
+          </if>
+          <if test="payStatus !=null and payStatus !=''">
+              pay_status = #{payStatus,jdbcType=INTEGER}
+          </if>
+        </set>
+        WHERE order_id = #{orderId,jdbcType=VARCHAR}
+    </update>
+</mapper>
